@@ -86,7 +86,7 @@ End Sub
 ' Create a Shell object
 Set objShell = CreateObject("WScript.Shell")
 
-' Path to the PowerShell script
+' Path to the PowerShell script comos
 scriptPath = "$scriptPath"
 
 Do
